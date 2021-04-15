@@ -1,0 +1,27 @@
+{
+  "name": "MS_Imgur---backend_Aquila_Tep_Online_Full-time_2021_4",
+  "version": "1.0.0",
+  "description": "At the end of this milestone you will learn",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://sid6145@github.com/exponentsoftware/MS_Imgur---backend_Aquila_Tep_Online_Full-time_2021_4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/exponentsoftware/MS_Imgur---backend_Aquila_Tep_Online_Full-time_2021_4/issues"
+  },
+  "homepage": "https://github.com/exponentsoftware/MS_Imgur---backend_Aquila_Tep_Online_Full-time_2021_4#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
