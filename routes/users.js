@@ -2,49 +2,50 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/Users') 
 
-router.get('/', function(req, res){
-   User.find()
-   .then((data) => {
-       res.send(data)
-   })
-   .catch((err) => {
-       res.send(err)
-   })
+router.get('/', async (req, res) => {
+ try{
+    const allUsers = await User.find();
+    res.send(allUsers);
+}
+ catch (err){
+    console.log(err);
+}
+   
 });
 
-router.post('/', (req, res) => {
-    const newuser = new User({
+router.post('/', async (req, res) => {
+ try{
+    const newUser = new User({
         username: req.body.username,
         password: req.body.password,
         email : req.body.email
     });
-
-    newuser.save()
-    .then((data) => {
-        res.send(data);
-    })
-    .catch((err) => {
-        res.send(err)
-    })
-
-})
-
-router.delete('/:userid', (req, res) => {
-
+     const savedUser = await newUser.save()
+     res.send(savedUser)
+   } 
+ catch(err){
+       console.log(err);
+   }
    
-    User.remove({_id:req.params.userid})
-    .then((data) => {
-        res.send(data)
-    })
-    .catch((err) => {
-        res.send(err)
-    })
 
 })
 
-router.put('/:userid', (req, res) => {
+router.delete('/:userid', async (req, res) => {
 
-    User.updateOne({_id:req.params.userid},
+ try{
+    const removedUser = await User.remove({_id:req.params.userid});
+    res.send(removedUser);
+ }  
+ catch(err){
+    console.log(err);
+ }
+    
+})
+
+router.put('/:userid', async (req, res) => {
+
+ try{
+    const updatedUser = await User.updateOne({_id:req.params.userid},
         {
      $set:{
                 username: req.body.username, 
@@ -52,12 +53,11 @@ router.put('/:userid', (req, res) => {
                 email:  req.body.email
             }
         })
-    .then((data) => {
-        res.send(data)
-    })
-    .catch((err) => {
-        res.send(err)
-    })
+        res.send(updatedUser);
+    }
+ catch(err){
+     console.log(err);
+ }
 
 })
 

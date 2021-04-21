@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/Posts')
 
-router.get('/', (req, res) => {
-   const allposts =  Post.find()
-    .then((data) =>{
-        res.send(data);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+router.get('/', async (req, res) => {
+    try{
+        const allposts = await Post.find()
+        res.send(allposts);
+    }
+    catch(err){
+        console.log(err)
+    }   
 })
 
-router.post('/', (req, res) => {
-    const newpost = new Post({
+router.post('/', async (req, res) => {
+    const newpost =  new Post({
         title:       req.body.title,
         description: req.body.description,
         imageurl:    req.body.imageurl,
@@ -21,39 +21,42 @@ router.post('/', (req, res) => {
         likes:       req.body.likes
     })
 
-    newpost.save()
-    .then((data) => {
-        res.send(data)
-    })
-    .catch((err) => {
-        res.send(err)
-    })
+    const savedPost = await newpost.save()
+   try{
+       res.send(savedPost)
+   }catch(err){
+       console.log(err)
+   }
 })
 
-router.delete('/:id', (req, res) => {
-    Post.remove({_id: req.params.id})
-    .then((data) => {
-        res.send(data)
-    }).catch((err) => {
-        console.log(err)
-    })
+router.delete('/:id', async (req, res) => {
+  const removedPost = await  Post.remove({_id: req.params.id})
+  try{
+    res.send(removedPost)
+ }catch(err){
+    console.log(err)
+ }
 })
 
-router.put('/:id', (req, res) => {
-    Post.updateOne({_id: req.params.id}, 
+router.put('/:id', async (req, res) => {
+   try{ 
+    const updatedPost = await Post.updateOne({_id: req.params.id}, 
     {    
-    $set: {
-        title: req.body.title, 
-        description: req.body.description,
-        imageurl: req.body.imageurl,
-        comment: req.body.comment,
-        likes: req.body.likes
-    }
-}).then((data) => {
-        res.send(data)
-    }).catch((err) => {
-        console.log(err)
+        $set: {
+            title: req.body.title, 
+            description: req.body.description,
+            imageurl: req.body.imageurl,
+            comment: req.body.comment,
+            likes: req.body.likes
+             }
     })
+    res.send(updatedPost)
+   }
+   catch(err){
+        console.log(err)
+   } 
+
+   
 })
 
 
