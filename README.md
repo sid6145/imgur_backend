@@ -32,4 +32,4 @@ https://imgur.com/
 
 
 # Hosted on Heroku 
-## https://imgur-backend-0707007.herokuapp.com/
+## https://siddhant-imgur.herokuapp.com/
