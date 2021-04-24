@@ -19,8 +19,7 @@ var storage = multer.diskStorage({
 router.get('/', async (req, res) => {
     try{
     const allPosts = await Post.find()
-    res.contentType('image/jpeg');
-    res.send(result.image.buffer);
+    res.send(allPosts);
     }catch(err){
         console.log(err);
     }
