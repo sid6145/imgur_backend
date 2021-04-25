@@ -1,54 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const Post = require('../models/Posts');
-const multer = require('multer');
-const fs = require('fs');
-
-
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'uploads')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now())
-    }
-  })
-   
-  var upload = multer({ storage: storage })
+const Post = require('../models/Posts')
 
 router.get('/', async (req, res) => {
     try{
-    const allPosts = await Post.find()
-    res.send(allPosts);
-    }catch(err){
-        console.log(err);
+        const allposts = await Post.find()
+        res.send(allposts);
     }
-   
+    catch(err){
+        console.log(err)
+    }   
 })
 
-router.post('/', upload.single('imageFile'), async (req, res) => {
-    const img = fs.readFileSync(req.file.path);
-    const encode_image = img.toString('base64');
-    const image =  new Buffer.alloc(encode_image, 'base64');
-    const contentType = req.file.mimetype;
+router.post('/', async (req, res) => {
+    const newpost =  new Post({
+        title:       req.body.title,
+        description: req.body.description,
+        imageurl:    req.body.imageurl,
+        comment:     req.body.comment,
+        likes:       req.body.likes
+    })
 
-
-     try{
-        const newPost = new Post({
-            image: image
-        })
-     const savedPost = await newPost.save()
-     res.send(savedPost)
-        
-     }catch(err){
-         console.log(err);
-     }
-    
-
-
-
-
-
+    const savedPost = await newpost.save()
+   try{
+       res.send(savedPost)
+   }catch(err){
+       console.log(err)
+   }
 })
 
 router.delete('/:id', async (req, res) => {
