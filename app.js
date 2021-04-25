@@ -1,8 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
-const port = 3000;
+const port = 5000;
 
 // connection to mongoDB atlas using mongoose
 mongoose.connect('mongodb+srv://sid123:sid123@cluster0.kjbnb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
@@ -13,7 +14,7 @@ mongoose.connect('mongodb+srv://sid123:sid123@cluster0.kjbnb.mongodb.net/myFirst
 })
 
 app.use(bodyParser.json());
-
+app.use(cors())
 //importing routes from other directory
 const postsRoute = require('./routes/posts');
 const usersRoute = require('./routes/users');
